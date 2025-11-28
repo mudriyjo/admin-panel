@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Logo } from '@/components/ui/logo'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import './auth-layout.css'
@@ -13,12 +12,10 @@ export interface AuthLayoutProps {
 }
 
 const AuthLayout = React.forwardRef<HTMLDivElement, AuthLayoutProps>(
-  ({ title, description, brandName, children, className }, ref) => {
+  ({ title, description, children, className }, ref) => {
     return (
       <div className="auth-container">
         <div ref={ref} className={cn('auth-content', className)}>
-          <Logo brandName={brandName} size="md" />
-
           <Card>
             <CardHeader>
               <CardTitle>{title}</CardTitle>

@@ -7,6 +7,7 @@ import { LinkButton } from '@/components/ui/link-button'
 import { AuthLayout } from '@/components/layouts/auth-layout'
 import { otpSchema, type OTPFormData } from '@/lib/validation'
 import { ROUTES } from '@/lib/constants'
+import { clearFieldError } from '@/lib/utils'
 import type { ApiError } from '@/types/api'
 import './otp.css'
 
@@ -29,7 +30,7 @@ export default function OTPPage() {
 
     // Clear field error when user types
     if (errors[name as keyof OTPFormData]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }))
+      setErrors((prev) => clearFieldError<OTPFormData>(prev, name as keyof OTPFormData))
     }
     // Clear API error when user types
     if (apiError) {
