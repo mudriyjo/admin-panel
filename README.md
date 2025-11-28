@@ -4,6 +4,13 @@ A modern, secure, and fully-featured admin panel built with React, TypeScript, a
 
 ## 🚀 Features
 
+### Component Architecture
+- ✅ **10+ Modular Components**: Fully reusable and type-safe
+- ✅ **Composition Pattern**: Build complex UIs from simple pieces
+- ✅ **Generic Types**: Table and other components support any data type
+- ✅ **CSS Module Pattern**: Each component with dedicated CSS file
+- ✅ **Smart Defaults**: Sensible defaults with full customization
+
 ### Authentication System
 - ✅ **Two-Step Authentication**: Email/password login followed by OTP verification
 - ✅ **JWT Token Management**: Automatic token refresh when expiring within 3 minutes
@@ -12,10 +19,13 @@ A modern, secure, and fully-featured admin panel built with React, TypeScript, a
 - ✅ **Secure Logout**: Complete state cleanup on logout
 
 ### User Interface
+- ✅ **Modular Component Library**: 10+ reusable, typed components
 - ✅ **Responsive Dashboard**: Collapsible sidebar with icon and expanded views
-- ✅ **Modern Design**: Based on shadcn/ui components with Tailwind CSS
+- ✅ **Modern Design**: Based on shadcn/ui with custom enhancements
 - ✅ **Dark Mode Ready**: CSS variables for easy theme switching
 - ✅ **Professional Layout**: Matches industry-standard admin panel designs
+- ✅ **Data-Driven Tables**: Generic Table component with custom renderers
+- ✅ **Loading States**: Built-in loading animations for async operations
 
 ### Form Validation
 - ✅ **Client-Side Validation**: Using Zod schema validation
@@ -51,9 +61,23 @@ A modern, secure, and fully-featured admin panel built with React, TypeScript, a
 ```
 src/
 ├── components/           # Reusable components
-│   ├── ui/              # shadcn/ui components (Button, Input, Card, etc.)
+│   ├── ui/              # Modular UI component library
+│   │   ├── avatar.tsx           # User avatars with fallback
+│   │   ├── button.tsx           # Enhanced button with loading states
+│   │   ├── card.tsx             # Card container components
+│   │   ├── divider.tsx          # Section dividers with text
+│   │   ├── form.tsx             # Form wrapper & FormField component
+│   │   ├── input.tsx            # Form input field
+│   │   ├── label.tsx            # Form label
+│   │   ├── link-button.tsx      # Link-styled buttons
+│   │   ├── logo.tsx             # Configurable brand logo
+│   │   ├── stat-card.tsx        # Dashboard statistics cards
+│   │   └── table.tsx            # Data-driven table component
+│   │
 │   ├── layouts/         # Layout components
-│   │   └── dashboard-layout.tsx
+│   │   ├── auth-layout.tsx      # Login/OTP page layout
+│   │   └── dashboard-layout.tsx # Main dashboard layout
+│   │
 │   ├── protected-route.tsx
 │   └── public-route.tsx
 │
@@ -181,20 +205,212 @@ The application will be available at `http://localhost:3000`
 - No `dangerouslySetInnerHTML` used
 - Input sanitization through Zod validation
 
-## 🎨 UI Components
+## 🎨 Component Library
 
-### Available shadcn/ui Components
-- `Button` - Multiple variants (default, outline, ghost, etc.)
-- `Input` - Form input with validation support
-- `Label` - Form labels
-- `Card` - Card container with header, content, footer
+This project features a **highly modular and reusable component architecture** designed for maximum flexibility and maintainability.
+
+### Core UI Components
+
+#### **Form Components** (`form.tsx`)
+Unified form system with built-in error handling:
+```tsx
+<Form onSubmit={handleSubmit} error={apiError}>
+  <FormField
+    label="Email"
+    name="email"
+    type="email"
+    value={formData.email}
+    onChange={handleChange}
+    error={errors.email}
+    labelAction={<LinkButton>Forgot password?</LinkButton>}
+  />
+  <Button type="submit" isLoading={isLoading}>Submit</Button>
+</Form>
+```
+
+**Features:**
+- Form-level error display (API errors)
+- Field-level validation errors
+- Optional helper text
+- Label actions (links, buttons)
+- Fully accessible with proper IDs
+
+#### **Button** (`button.tsx`)
+Enhanced button with loading states:
+```tsx
+<Button
+  variant="default"
+  size="lg"
+  isLoading={isLoading}
+  loadingText="Please wait..."
+>
+  Submit
+</Button>
+```
+
+**Props:**
+- `variant`: `default`, `destructive`, `outline`, `secondary`, `ghost`, `link`
+- `size`: `default`, `sm`, `lg`, `icon`
+- `isLoading`: Show spinner and disable
+- `loadingText`: Optional loading text
+
+#### **Avatar** (`avatar.tsx`)
+User profile pictures with smart fallback:
+```tsx
+<Avatar
+  src="/path/to/image.jpg"
+  alt="User Name"
+  fallback="JD"
+  size="md"
+/>
+```
+
+**Features:**
+- Auto-fallback on image error
+- Sizes: `sm` (2rem), `md` (2.5rem), `lg` (3rem)
+- Uppercase fallback text
+- Circular design
+
+#### **StatCard** (`stat-card.tsx`)
+Dashboard statistics with icons and trends:
+```tsx
+<StatCard
+  title="Total Users"
+  value="2,345"
+  description="+20.1% from last month"
+  trend="up"
+  icon={<Users />}
+/>
+```
+
+**Props:**
+- `trend`: `up` (green), `down` (red), `neutral` (gray)
+- Hover animation
+- Customizable icon
+
+#### **Table** (`table.tsx`)
+Data-driven table with type safety:
+```tsx
+interface User {
+  email: string
+  role: string
+}
+
+const columns: TableColumn<User>[] = [
+  { header: 'Email', accessor: 'email' },
+  { header: 'Role', accessor: 'role', className: 'table-cell-muted' },
+  { header: 'Actions', accessor: (row) => <Button>Edit</Button> }
+]
+
+<Table
+  columns={columns}
+  data={users}
+  emptyMessage="No users found"
+  onRowClick={(user) => console.log(user)}
+/>
+```
+
+**Features:**
+- Fully typed with generics
+- Function accessors for custom rendering
+- Per-column custom classes
+- Built-in empty state
+- Optional row click handler
+- Responsive with horizontal scroll
+
+#### **Logo** (`logo.tsx`)
+Configurable brand logo:
+```tsx
+<Logo
+  brandName="Acme Inc."
+  size="md"
+  showBrand={true}
+/>
+```
+
+**Sizes:** `sm`, `md`, `lg`
+
+#### **Divider** (`divider.tsx`)
+Section separator with optional text:
+```tsx
+<Divider text="Or continue with" />
+<Divider /> {/* Simple line */}
+```
+
+#### **LinkButton** (`link-button.tsx`)
+Text links styled as buttons:
+```tsx
+<LinkButton variant="primary" onClick={handleClick}>
+  Forgot password?
+</LinkButton>
+```
+
+**Variants:** `primary`, `muted`
 
 ### Layout Components
-- `DashboardLayout` - Main layout with collapsible sidebar
-  - Hamburger menu to toggle sidebar
-  - Navigation with icons and labels
-  - User profile display
-  - Logout button
+
+#### **AuthLayout** (`auth-layout.tsx`)
+Unified layout for authentication pages:
+```tsx
+<AuthLayout
+  title="Login to your account"
+  description="Enter your credentials"
+  brandName="Acme Inc."
+>
+  {/* Form content */}
+</AuthLayout>
+```
+
+**Features:**
+- Centered card layout
+- Logo and branding
+- Responsive design
+- Consistent styling
+
+#### **DashboardLayout** (`dashboard-layout.tsx`)
+Main application layout:
+- Collapsible sidebar (icon ↔ full view)
+- Navigation with active state
+- User profile display with Avatar
+- Breadcrumb navigation
+- Header actions
+- Logout functionality
+
+### Base Components (shadcn/ui)
+- `Card` - Container with Header, Content, Footer
+- `Input` - Form input field
+- `Label` - Form label
+
+## 🧩 Component Patterns
+
+### Composition Over Configuration
+Components are designed to work together seamlessly:
+```tsx
+// Login page in ~30 lines
+<AuthLayout title="Login" description="Welcome back">
+  <Form onSubmit={handleSubmit} error={apiError}>
+    <FormField label="Email" {...emailProps} />
+    <FormField label="Password" {...passwordProps} />
+    <Button isLoading={isLoading}>Login</Button>
+    <Divider text="Or continue with" />
+    <Button variant="outline">GitHub</Button>
+  </Form>
+</AuthLayout>
+```
+
+### Type Safety
+All components are fully typed with TypeScript:
+- Props interfaces exported
+- Generic types for data-driven components (Table)
+- Strict null checking
+- IntelliSense support
+
+### Customization
+Every component accepts:
+- `className` for custom styles
+- Standard HTML props via spread
+- `ref` forwarding (React.forwardRef)
+- CSS variable theming
 
 ## 🔌 API Integration
 
@@ -290,18 +506,28 @@ npm run build
 - Define interfaces for all props and types
 - Avoid `any` type
 - Use type inference where possible
+- Export prop interfaces for reusability
 
 ### React
-- Use functional components
+- Use functional components with `React.forwardRef`
 - Use hooks for state and effects
 - Keep components small and focused
 - Extract reusable logic into custom hooks
+- Prefer composition over prop drilling
+
+### Component Architecture
+- **Separation of Concerns**: Data, logic, and presentation separated
+- **Single Responsibility**: Each component does one thing well
+- **Reusability**: Build once, use everywhere
+- **Type Safety**: Fully typed props and generics where needed
+- **Accessibility**: Proper ARIA labels and semantic HTML
 
 ### Naming Conventions
-- **Components**: PascalCase (e.g., `DashboardLayout`)
-- **Files**: kebab-case (e.g., `dashboard-layout.tsx`)
-- **Functions**: camelCase (e.g., `handleSubmit`)
+- **Components**: PascalCase (e.g., `DashboardLayout`, `FormField`)
+- **Files**: kebab-case (e.g., `dashboard-layout.tsx`, `stat-card.tsx`)
+- **Functions**: camelCase (e.g., `handleSubmit`, `getCellValue`)
 - **Constants**: UPPER_SNAKE_CASE (e.g., `API_BASE_URL`)
+- **CSS Classes**: kebab-case (e.g., `form-field`, `stat-card-icon`)
 
 ## 📚 Learning Resources
 
@@ -313,6 +539,63 @@ npm run build
 - [Zod](https://zod.dev)
 - [shadcn/ui](https://ui.shadcn.com)
 - [Tailwind CSS](https://tailwindcss.com/docs)
+
+## 🔖 Quick Reference
+
+### Component Cheat Sheet
+
+| Component | Import | Primary Use |
+|-----------|--------|-------------|
+| `Form` | `@/components/ui/form` | Form wrapper with error handling |
+| `FormField` | `@/components/ui/form` | Input field with label and validation |
+| `Button` | `@/components/ui/button` | Buttons with loading states |
+| `Avatar` | `@/components/ui/avatar` | User profile pictures |
+| `StatCard` | `@/components/ui/stat-card` | Dashboard metrics display |
+| `Table` | `@/components/ui/table` | Data tables with type safety |
+| `Logo` | `@/components/ui/logo` | Brand logo component |
+| `Divider` | `@/components/ui/divider` | Section separators |
+| `LinkButton` | `@/components/ui/link-button` | Link-styled buttons |
+| `AuthLayout` | `@/components/layouts/auth-layout` | Login/OTP page wrapper |
+| `DashboardLayout` | `@/components/layouts/dashboard-layout` | Main app layout |
+
+### Common Patterns
+
+**Form with validation:**
+```tsx
+import { Form, FormField } from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+
+<Form onSubmit={handleSubmit} error={apiError}>
+  <FormField label="Name" name="name" value={value} onChange={onChange} error={error} />
+  <Button isLoading={isLoading}>Submit</Button>
+</Form>
+```
+
+**Data table:**
+```tsx
+import { Table, type TableColumn } from '@/components/ui/table'
+
+const columns: TableColumn<DataType>[] = [
+  { header: 'Name', accessor: 'name' },
+  { header: 'Actions', accessor: (row) => <Button>Edit</Button> }
+]
+
+<Table columns={columns} data={data} />
+```
+
+**Dashboard stats:**
+```tsx
+import { StatCard } from '@/components/ui/stat-card'
+import { Users } from 'lucide-react'
+
+<StatCard
+  title="Total Users"
+  value="1,234"
+  description="+12% from last month"
+  trend="up"
+  icon={<Users />}
+/>
+```
 
 ## 📄 License
 

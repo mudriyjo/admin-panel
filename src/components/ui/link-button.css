@@ -1,0 +1,35 @@
+.link-button {
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+  transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.link-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.link-button:disabled:hover {
+  text-decoration: none;
+}
+
+.link-button-primary {
+  color: hsl(var(--primary));
+}
+
+.link-button-muted {
+  color: hsl(var(--muted-foreground));
+}
+
+.link-button-muted:hover {
+  color: hsl(var(--foreground));
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from '@/stores/auth-store'
+import { Avatar } from '@/components/ui/avatar'
 import {
   Menu,
   Home,
@@ -118,9 +119,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {isExpanded && user && (
             <div className="user-profile">
-              <div className="user-avatar">
-                {user.email.charAt(0).toUpperCase()}
-              </div>
+              <Avatar
+                fallback={user.email.charAt(0).toUpperCase()}
+                size="md"
+              />
               <div className="user-info">
                 <p className="user-name">{user.name || 'User'}</p>
                 <p className="user-email">{user.email}</p>
@@ -173,9 +175,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 />
               </svg>
             </button>
-            <div className="header-avatar">
-              AP
-            </div>
+            <Avatar fallback="AP" size="sm" />
           </div>
         </header>
 

@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/auth-store'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Form, FormField } from '@/components/ui/form'
+import { LinkButton } from '@/components/ui/link-button'
+import { AuthLayout } from '@/components/layouts/auth-layout'
 import { otpSchema, type OTPFormData } from '@/lib/validation'
 import { ROUTES } from '@/lib/constants'
 import type { ApiError } from '@/types/api'
@@ -77,76 +77,48 @@ export default function OTPPage() {
   const isFormValid = formData.otp.length === 8 && Object.keys(errors).length === 0
 
   return (
-    <div className="otp-container">
-      <div className="otp-content">
-        <div className="otp-header">
-          <div className="otp-logo">
-            <div className="otp-logo-inner" />
-          </div>
-          <span className="otp-brand">Acme Inc.</span>
+    <AuthLayout
+      title="Verify your account"
+      description="Enter the 8-digit verification code we sent to your email"
+      brandName="Acme Inc."
+    >
+      <Form onSubmit={handleSubmit} error={apiError}>
+        <FormField
+          label="Verification Code"
+          name="otp"
+          type="text"
+          placeholder="12345678"
+          value={formData.otp}
+          onChange={handleChange}
+          disabled={isLoading}
+          maxLength={8}
+          className="otp-input-field"
+          autoComplete="off"
+          error={errors.otp}
+        />
+
+        <Button type="submit" className="btn-full" isLoading={isLoading} loadingText="Verifying..." disabled={!isFormValid}>
+          Verify
+        </Button>
+
+        <div className="resend-text">
+          Didn't receive the code?{' '}
+          <LinkButton type="button" variant="primary" disabled={isLoading}>
+            Resend
+          </LinkButton>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Verify your account</CardTitle>
-            <CardDescription>
-              Enter the 8-digit verification code we sent to your email
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="otp-form">
-              <div className="otp-input-container">
-                <Label htmlFor="otp">Verification Code</Label>
-                <Input
-                  id="otp"
-                  name="otp"
-                  type="text"
-                  placeholder="12345678"
-                  value={formData.otp}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  maxLength={8}
-                  className={errors.otp ? 'otp-input-error' : 'otp-input-field'}
-                  autoComplete="off"
-                />
-                {errors.otp && <p className="error-message">{errors.otp}</p>}
-              </div>
-
-              {apiError && (
-                <div className="api-error">
-                  {apiError}
-                </div>
-              )}
-
-              <Button type="submit" className="btn-full" disabled={!isFormValid || isLoading}>
-                {isLoading ? 'Verifying...' : 'Verify'}
-              </Button>
-
-              <div className="resend-text">
-                Didn't receive the code?{' '}
-                <button
-                  type="button"
-                  className="resend-button"
-                  disabled={isLoading}
-                >
-                  Resend
-                </button>
-              </div>
-
-              <div className="resend-text">
-                <button
-                  type="button"
-                  className="back-button"
-                  onClick={() => navigate(ROUTES.LOGIN)}
-                  disabled={isLoading}
-                >
-                  ← Back to login
-                </button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+        <div className="resend-text">
+          <LinkButton
+            type="button"
+            variant="muted"
+            onClick={() => navigate(ROUTES.LOGIN)}
+            disabled={isLoading}
+          >
+            ← Back to login
+          </LinkButton>
+        </div>
+      </Form>
+    </AuthLayout>
   )
 }
