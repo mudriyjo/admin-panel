@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { otpSchema, type OTPFormData } from '@/lib/validation'
 import { ROUTES } from '@/lib/constants'
 import type { ApiError } from '@/types/api'
+import './otp.css'
 
 export default function OTPPage() {
   const navigate = useNavigate()
@@ -76,13 +77,13 @@ export default function OTPPage() {
   const isFormValid = formData.otp.length === 8 && Object.keys(errors).length === 0
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-secondary/30 p-4">
-      <div className="w-full max-w-md">
-        <div className="mb-8 flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary">
-            <div className="h-6 w-6 rounded-sm bg-primary-foreground" />
+    <div className="otp-container">
+      <div className="otp-content">
+        <div className="otp-header">
+          <div className="otp-logo">
+            <div className="otp-logo-inner" />
           </div>
-          <span className="text-xl font-semibold">Acme Inc.</span>
+          <span className="otp-brand">Acme Inc.</span>
         </div>
 
         <Card>
@@ -93,8 +94,8 @@ export default function OTPPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
+            <form onSubmit={handleSubmit} className="otp-form">
+              <div className="otp-input-container">
                 <Label htmlFor="otp">Verification Code</Label>
                 <Input
                   id="otp"
@@ -105,37 +106,37 @@ export default function OTPPage() {
                   onChange={handleChange}
                   disabled={isLoading}
                   maxLength={8}
-                  className={errors.otp ? 'border-destructive text-center text-2xl tracking-widest' : 'text-center text-2xl tracking-widest'}
+                  className={errors.otp ? 'otp-input-error' : 'otp-input-field'}
                   autoComplete="off"
                 />
-                {errors.otp && <p className="text-sm text-destructive">{errors.otp}</p>}
+                {errors.otp && <p className="error-message">{errors.otp}</p>}
               </div>
 
               {apiError && (
-                <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+                <div className="api-error">
                   {apiError}
                 </div>
               )}
 
-              <Button type="submit" className="w-full" disabled={!isFormValid || isLoading}>
+              <Button type="submit" className="btn-full" disabled={!isFormValid || isLoading}>
                 {isLoading ? 'Verifying...' : 'Verify'}
               </Button>
 
-              <div className="text-center text-sm">
+              <div className="resend-text">
                 Didn't receive the code?{' '}
                 <button
                   type="button"
-                  className="font-medium text-primary hover:underline"
+                  className="resend-button"
                   disabled={isLoading}
                 >
                   Resend
                 </button>
               </div>
 
-              <div className="text-center text-sm">
+              <div className="resend-text">
                 <button
                   type="button"
-                  className="text-muted-foreground hover:text-foreground"
+                  className="back-button"
                   onClick={() => navigate(ROUTES.LOGIN)}
                   disabled={isLoading}
                 >

@@ -1,21 +1,22 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TrendingUp } from 'lucide-react'
+import './dashboard.css'
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Main Dashboard</h1>
-        <p className="text-muted-foreground">Welcome to your admin panel</p>
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h1 className="dashboard-title">Main Dashboard</h1>
+        <p className="dashboard-subtitle">Welcome to your admin panel</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="stats-grid">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+          <CardHeader className="stat-header no-spacing">
+            <CardTitle className="stat-title">Total Users</CardTitle>
             <svg
-              className="h-4 w-4 text-muted-foreground"
+              className="stat-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -29,16 +30,16 @@ export default function DashboardPage() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2,345</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+            <div className="stat-value">2,345</div>
+            <p className="stat-change">+20.1% from last month</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
+          <CardHeader className="stat-header no-spacing">
+            <CardTitle className="stat-title">Active Sessions</CardTitle>
             <svg
-              className="h-4 w-4 text-muted-foreground"
+              className="stat-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -52,16 +53,16 @@ export default function DashboardPage() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">573</div>
-            <p className="text-xs text-muted-foreground">+12.5% from last hour</p>
+            <div className="stat-value">573</div>
+            <p className="stat-change">+12.5% from last hour</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+          <CardHeader className="stat-header no-spacing">
+            <CardTitle className="stat-title">Revenue</CardTitle>
             <svg
-              className="h-4 w-4 text-muted-foreground"
+              className="stat-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -75,19 +76,19 @@ export default function DashboardPage() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231</div>
-            <p className="text-xs text-muted-foreground">+8.2% from last month</p>
+            <div className="stat-value">$45,231</div>
+            <p className="stat-change">+8.2% from last month</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Credits Usage</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className="stat-header no-spacing">
+            <CardTitle className="stat-title">Credits Usage</CardTitle>
+            <TrendingUp className="stat-icon" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">149,758</div>
-            <p className="text-xs text-muted-foreground">Last year usage</p>
+            <div className="stat-value">149,758</div>
+            <p className="stat-change">Last year usage</p>
           </CardContent>
         </Card>
       </div>
@@ -98,10 +99,10 @@ export default function DashboardPage() {
           <CardTitle>Credits Usage Last Year</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px] w-full">
+          <div className="chart-container">
             {/* Placeholder for chart - you can integrate a charting library like recharts */}
-            <div className="flex h-full items-center justify-center rounded-lg bg-muted/50">
-              <p className="text-muted-foreground">Chart visualization area</p>
+            <div className="chart-placeholder">
+              <p className="chart-placeholder-text">Chart visualization area</p>
             </div>
           </div>
         </CardContent>
@@ -113,23 +114,23 @@ export default function DashboardPage() {
           <CardTitle>Recent Users</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="table-container">
+            <table className="users-table">
               <thead>
-                <tr className="border-b">
-                  <th className="pb-2 text-left text-sm font-medium text-muted-foreground">
+                <tr className="table-header-row">
+                  <th className="table-header-cell">
                     EMAIL ADDRESS
                   </th>
-                  <th className="pb-2 text-left text-sm font-medium text-muted-foreground">
+                  <th className="table-header-cell">
                     PROVIDER
                   </th>
-                  <th className="pb-2 text-left text-sm font-medium text-muted-foreground">
+                  <th className="table-header-cell">
                     CREATED
                   </th>
-                  <th className="pb-2 text-left text-sm font-medium text-muted-foreground">
+                  <th className="table-header-cell">
                     LAST SIGN IN
                   </th>
-                  <th className="pb-2 text-left text-sm font-medium text-muted-foreground">
+                  <th className="table-header-cell">
                     USER UID
                   </th>
                 </tr>
@@ -158,12 +159,12 @@ export default function DashboardPage() {
                     uid: 'f3f42fc419-ce32-49fc-92df...',
                   },
                 ].map((user, index) => (
-                  <tr key={index} className="border-b last:border-0">
-                    <td className="py-3 text-sm">{user.email}</td>
-                    <td className="py-3 text-sm text-muted-foreground">{user.provider}</td>
-                    <td className="py-3 text-sm text-muted-foreground">{user.created}</td>
-                    <td className="py-3 text-sm text-muted-foreground">{user.lastSignIn}</td>
-                    <td className="py-3 text-sm text-muted-foreground">{user.uid}</td>
+                  <tr key={index} className="table-body-row">
+                    <td className="table-cell">{user.email}</td>
+                    <td className="table-cell-muted">{user.provider}</td>
+                    <td className="table-cell-muted">{user.created}</td>
+                    <td className="table-cell-muted">{user.lastSignIn}</td>
+                    <td className="table-cell-muted">{user.uid}</td>
                   </tr>
                 ))}
               </tbody>

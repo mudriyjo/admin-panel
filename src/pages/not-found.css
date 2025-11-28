@@ -1,0 +1,31 @@
+/* Not Found Page Styles */
+.not-found-container {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(var(--secondary) / 0.3);
+  padding: 1rem;
+}
+
+.not-found-content {
+  text-align: center;
+}
+
+.not-found-title {
+  font-size: 9rem;
+  line-height: 1;
+  font-weight: 700;
+  color: hsl(var(--primary));
+}
+
+.not-found-message {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.not-found-button {
+  margin-top: 2rem;
+}

@@ -15,6 +15,7 @@ import {
   LogOut,
 } from 'lucide-react'
 import { ROUTES } from '@/lib/constants'
+import './dashboard-layout.css'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -54,40 +55,34 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="dashboard-layout">
       {/* Sidebar */}
-      <aside
-        className={`flex flex-col border-r bg-card transition-all duration-300 ${
-          isExpanded ? 'w-64' : 'w-16'
-        }`}
-      >
+      <aside className={`sidebar ${isExpanded ? 'sidebar-expanded' : 'sidebar-collapsed'}`}>
         {/* Logo and Brand */}
-        <div className="flex h-16 items-center border-b px-4">
+        <div className="sidebar-header">
           {isExpanded ? (
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
-                <span className="text-sm font-bold text-primary-foreground">HA</span>
+            <div className="brand-container">
+              <div className="brand-logo">
+                <span className="brand-logo-text">HA</span>
               </div>
-              <span className="text-lg font-semibold">Horizon AI</span>
-              <span className="ml-1 rounded bg-secondary px-1.5 py-0.5 text-xs font-medium">FREE</span>
+              <span className="brand-name">Horizon AI</span>
+              <span className="brand-badge">FREE</span>
             </div>
           ) : (
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
-              <span className="text-sm font-bold text-primary-foreground">HA</span>
+            <div className="brand-logo">
+              <span className="brand-logo-text">HA</span>
             </div>
           )}
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-1 overflow-y-auto p-2">
+        <nav className="nav-container">
           {/* Hamburger menu item */}
           <button
             onClick={toggleSidebar}
-            className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
-              isExpanded ? '' : 'justify-center'
-            }`}
+            className={`nav-item nav-item-default ${isExpanded ? '' : 'nav-item-centered'}`}
           >
-            <Menu className="h-5 w-5 shrink-0" />
+            <Menu className="nav-icon" />
             {isExpanded && <span>Toggle Menu</span>}
           </button>
 
@@ -100,13 +95,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                } ${isExpanded ? '' : 'justify-center'}`}
+                className={`nav-item ${
+                  isActive ? 'nav-item-active' : 'nav-item-default'
+                } ${isExpanded ? '' : 'nav-item-centered'}`}
               >
-                <Icon className="h-5 w-5 shrink-0" />
+                <Icon className="nav-icon" />
                 {isExpanded && <span>{item.label}</span>}
               </Link>
             )
@@ -114,25 +107,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </nav>
 
         {/* User profile and logout */}
-        <div className="border-t p-2">
+        <div className="sidebar-footer">
           <button
             onClick={handleLogout}
-            className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-destructive hover:text-destructive-foreground ${
-              isExpanded ? '' : 'justify-center'
-            }`}
+            className={`logout-button ${isExpanded ? '' : 'logout-button-centered'}`}
           >
-            <LogOut className="h-5 w-5 shrink-0" />
+            <LogOut className="nav-icon" />
             {isExpanded && <span>Logout</span>}
           </button>
 
           {isExpanded && user && (
-            <div className="mt-2 flex items-center gap-2 rounded-md bg-secondary p-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+            <div className="user-profile">
+              <div className="user-avatar">
                 {user.email.charAt(0).toUpperCase()}
               </div>
-              <div className="flex-1 overflow-hidden">
-                <p className="truncate text-sm font-medium">{user.name || 'User'}</p>
-                <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+              <div className="user-info">
+                <p className="user-name">{user.name || 'User'}</p>
+                <p className="user-email">{user.email}</p>
               </div>
             </div>
           )}
@@ -140,20 +131,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </aside>
 
       {/* Main content */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="main-content-wrapper">
         {/* Header */}
-        <header className="flex h-16 items-center justify-between border-b bg-card px-6">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Pages</span>
-            <span className="text-sm text-muted-foreground">/</span>
-            <span className="text-sm font-medium">
+        <header className="header">
+          <div className="breadcrumb">
+            <span className="breadcrumb-text">Pages</span>
+            <span className="breadcrumb-text">/</span>
+            <span className="breadcrumb-current">
               {navItems.find((item) => item.path === location.pathname)?.label || 'Dashboard'}
             </span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <button className="text-muted-foreground hover:text-foreground">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="header-actions">
+            <button className="header-button">
+              <svg className="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -162,8 +153,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 />
               </svg>
             </button>
-            <button className="text-muted-foreground hover:text-foreground">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button className="header-button">
+              <svg className="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -172,8 +163,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 />
               </svg>
             </button>
-            <button className="text-muted-foreground hover:text-foreground">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button className="header-button">
+              <svg className="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -182,14 +173,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 />
               </svg>
             </button>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+            <div className="header-avatar">
               AP
             </div>
           </div>
         </header>
 
         {/* Main content area */}
-        <main className="flex-1 overflow-y-auto bg-secondary/30 p-6">{children}</main>
+        <main className="main-content">{children}</main>
       </div>
     </div>
   )
