@@ -1,0 +1,135 @@
+/* Dashboard Page Styles */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dashboard-header {
+}
+
+.dashboard-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+}
+
+.dashboard-subtitle {
+  color: hsl(var(--muted-foreground));
+}
+
+.stats-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.stat-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+}
+
+.stat-header.no-spacing {
+  gap: 0;
+}
+
+.stat-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+.stat-icon {
+  height: 1rem;
+  width: 1rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+.stat-change {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.chart-container {
+  height: 300px;
+  width: 100%;
+}
+
+.chart-placeholder {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background-color: hsl(var(--muted) / 0.5);
+}
+
+.chart-placeholder-text {
+  color: hsl(var(--muted-foreground));
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+}
+
+.table-header-row {
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.table-header-cell {
+  padding-bottom: 0.5rem;
+  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+}
+
+.table-body-row {
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.table-body-row:last-child {
+  border-bottom: 0;
+}
+
+.table-cell {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.table-cell-muted {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(var(--muted-foreground));
+}
